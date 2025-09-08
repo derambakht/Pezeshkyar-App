@@ -5,14 +5,14 @@ import { useTheme } from "../contexts/ThemeContext";
 const AudioWaveform = ({ isActive, audioLevel = 0 }) => {
   const { isDark } = useTheme();
   
-  const bars = Array.from({ length: 12 }, (_, i) => i);
+  const bars = Array.from({ length: 16 }, (_, i) => i);
   
   return (
-    <div className="flex items-center justify-center gap-1 h-12">
+    <div className="flex items-center justify-center gap-1.5 h-16">
       {bars.map((bar) => {
-        const baseHeight = 8 + (bar % 3) * 4;
+        const baseHeight = 12 + (bar % 4) * 6;
         const animatedHeight = isActive 
-          ? baseHeight + (Math.sin(bar * 0.5 + Date.now() * 0.01) * audioLevel * 0.3)
+          ? baseHeight + (Math.sin(bar * 0.5 + Date.now() * 0.01) * audioLevel * 0.4)
           : baseHeight;
         
         return (
@@ -20,14 +20,14 @@ const AudioWaveform = ({ isActive, audioLevel = 0 }) => {
             key={bar}
             animate={{
               height: isActive ? [baseHeight, animatedHeight, baseHeight] : baseHeight,
-              opacity: isActive ? [0.3, 1, 0.3] : 0.3
+              opacity: isActive ? [0.4, 1, 0.4] : 0.4
             }}
             transition={{
-              duration: 0.6 + (bar % 4) * 0.1,
+              duration: 0.7 + (bar % 5) * 0.1,
               repeat: isActive ? Infinity : 0,
               ease: "easeInOut"
             }}
-            className={`w-1 rounded-full ${
+            className={`w-1.5 rounded-full ${
               isDark 
                 ? 'bg-blue-400' 
                 : 'bg-blue-500'

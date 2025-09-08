@@ -6,7 +6,6 @@ import AudioWaveform from "./AudioWaveform";
 import StatusIndicator from "./StatusIndicator";
 import VoiceAssistantSettings from "./VoiceAssistantSettings";
 import TypewriterText from "./TypewriterText";
-import SmartSuggestions from "./SmartSuggestions";
 
 const VoiceAssistant = () => {
   const { isDark } = useTheme();
@@ -154,20 +153,17 @@ const VoiceAssistant = () => {
           </div>
           <h4 className="text-lg font-semibold mb-2">به پزشکیار خوش آمدید!</h4>
           <p className="text-sm mb-6">
-            برای شروع مکالمه، روی دکمه میکروفون کلیک کنید یا یکی از پیشنهادات زیر را انتخاب کنید
+            برای شروع مکالمه، روی دکمه میکروفون کلیک کنید
           </p>
-          
-          {/* Smart Suggestions */}
-          <SmartSuggestions onSuggestionClick={handleSuggestionClick} />
         </div>
       )}
 
       {/* Microphone Button */}
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center items-center min-h-[300px] mb-8">
         <div className="relative">
           {/* Simple Audio Level Visualization */}
           {isRecording && (
-            <div className="absolute -inset-12 flex items-center justify-center">
+            <div className="absolute -inset-20 flex items-center justify-center">
               <AudioWaveform isActive={isRecording} audioLevel={audioLevel} />
             </div>
           )}
@@ -175,7 +171,7 @@ const VoiceAssistant = () => {
           {/* Main Button */}
           <button
             onClick={isRecording ? stopRecording : startRecording}
-            className={`relative w-20 h-20 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-105 ${
+            className={`relative w-32 h-32 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-105 ${
               isRecording 
                 ? 'bg-red-500 hover:bg-red-600' 
                 : isDark 
@@ -184,15 +180,15 @@ const VoiceAssistant = () => {
             }`}
             style={{
               boxShadow: isRecording 
-                ? `0 0 30px ${isDark ? 'rgba(239, 68, 68, 0.6)' : 'rgba(239, 68, 68, 0.4)'}` 
-                : `0 0 30px ${isDark ? 'rgba(59, 130, 246, 0.5)' : 'rgba(59, 130, 246, 0.2)'}`
+                ? `0 0 50px ${isDark ? 'rgba(239, 68, 68, 0.6)' : 'rgba(239, 68, 68, 0.4)'}` 
+                : `0 0 50px ${isDark ? 'rgba(59, 130, 246, 0.5)' : 'rgba(59, 130, 246, 0.2)'}`
             }}
           >
             {isRecording ? (
-              <FaStop className="text-white text-2xl drop-shadow-lg" />
+              <FaStop className="text-white text-4xl drop-shadow-lg" />
             ) : (
-              <FaMicrophone className={`text-2xl drop-shadow-lg ${
-                isDark ? 'text-blue-100' : 'text-blue-100'
+              <FaMicrophone className={`text-4xl drop-shadow-lg ${
+                isDark ? 'text-blue-100' : 'text-blue-700'
               }`} />
             )}
           </button>
