@@ -16,6 +16,19 @@ const VoiceAssistant = () => {
   const [audioLevel, setAudioLevel] = useState(0);
   const [showWelcome, setShowWelcome] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentAudio, setCurrentAudio] = useState(null);
+
+  // Cleanup function for audio
+  useEffect(() => {
+    return () => {
+      if (currentAudio) {
+        currentAudio.pause();
+        setCurrentAudio(null);
+        setIsPlaying(false);
+      }
+    };
+  }, [currentAudio]);
 
   // شبیه‌سازی تشخیص صدا
   const simulateAudioLevel = () => {
@@ -75,6 +88,92 @@ const VoiceAssistant = () => {
       setIsProcessing(false);
       setResponse(responses[suggestionText] || "متأسفانه در حال حاضر پاسخ مناسبی برای این سوال ندارم. لطفاً با پزشک متخصص مشورت کنید.");
     }, 2500);
+  };
+
+  // Text-to-Speech function
+  const playTextToSpeech = async (text) => {
+    try {
+      // Stop any currently playing audio
+      if (currentAudio) {
+        currentAudio.pause();
+        setCurrentAudio(null);
+        setIsPlaying(false);
+      }
+
+      setIsPlaying(true);
+
+      console.log('Starting text-to-speech for:', text.substring(0, 50) + '...');
+
+      // Dynamic import ElevenLabs
+      const { ElevenLabsClient } = await import('@elevenlabs/elevenlabs-js');
+      
+      const apiKey = import.meta.env.VITE_ELEVENLABS_API_KEY;
+      console.log('API Key available:', !!apiKey);
+      
+      if (!apiKey) {
+        throw new Error('ElevenLabs API key not found');
+      }
+      
+      const elevenlabs = new ElevenLabsClient({
+        apiKey: apiKey
+      });
+
+      console.log('Calling ElevenLabs API...');
+      
+      // Convert text to speech using ElevenLabs
+      const audioStream = await elevenlabs.textToSpeech.convert('JBFqnCBsd6RMkjVDRZzb', {
+        text: text,
+        modelId: 'eleven_v3',
+        outputFormat: 'mp3_44100_128',
+      });
+
+      console.log('Audio stream received, creating blob...');
+
+      // Convert stream to array buffer
+      const chunks = [];
+      const reader = audioStream.getReader();
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+      }
+      
+      // Create audio blob from chunks
+      const audioBlob = new Blob(chunks, { type: 'audio/mpeg' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      
+      console.log('Audio URL created, starting playback...');
+      
+      const audioElement = new Audio(audioUrl);
+      setCurrentAudio(audioElement);
+
+      // Play the audio
+      audioElement.onended = () => {
+        console.log('Audio playback ended');
+        setIsPlaying(false);
+        setCurrentAudio(null);
+        URL.revokeObjectURL(audioUrl);
+      };
+
+      audioElement.onerror = (error) => {
+        console.error('Audio playback error:', error);
+        setIsPlaying(false);
+        setCurrentAudio(null);
+        URL.revokeObjectURL(audioUrl);
+      };
+
+      await audioElement.play();
+      console.log('Audio playback started');
+
+    } catch (error) {
+      console.error('Error with text-to-speech:', error);
+      setIsPlaying(false);
+      setCurrentAudio(null);
+      
+      // Show user feedback
+      alert(`خطا در پخش صوتی: ${error.message}`);
+    }
   };
 
   return (
@@ -244,12 +343,21 @@ const VoiceAssistant = () => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-sm font-medium">پزشکیار پاسخ می‌دهد:</p>
-                <button className={`p-2 rounded-full flex-shrink-0 hover:scale-105 transition-transform ${
-                  isDark 
-                    ? 'hover:bg-gray-600 text-green-400' 
-                    : 'hover:bg-green-100 text-green-600'
-                }`}>
-                  <FaVolumeUp className="text-sm" />
+                <button 
+                  onClick={() => playTextToSpeech(response)}
+                  disabled={isPlaying}
+                  className={`p-2 rounded-full flex-shrink-0 hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isPlaying 
+                      ? isDark 
+                        ? 'bg-gray-600 text-yellow-400' 
+                        : 'bg-green-100 text-yellow-600'
+                      : isDark 
+                        ? 'hover:bg-gray-600 text-green-400' 
+                        : 'hover:bg-green-100 text-green-600'
+                  }`}
+                  title={isPlaying ? 'در حال پخش...' : 'پخش صوتی'}
+                >
+                  <FaVolumeUp className={`text-sm ${isPlaying ? 'animate-pulse' : ''}`} />
                 </button>
               </div>
               <div className="overflow-hidden">
