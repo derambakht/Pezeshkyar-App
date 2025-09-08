@@ -43,14 +43,14 @@ const EnvironmentCard = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow mb-6"
+      className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow mb-6 overflow-hidden"
     >
-      <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-        <span className="w-3 h-3 bg-green-500 rounded-full ml-2 animate-pulse"></span>
+      <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 flex items-center">
+        <span className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full ml-2 animate-pulse"></span>
         وضعیت محیط مطب
       </h3>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {environmentData.map((item, index) => (
           <motion.div
             key={item.id}
@@ -60,11 +60,11 @@ const EnvironmentCard = () => {
             whileHover={{ y: -2 }}
             className="text-center"
           >
-            <div className={`${item.bgColor} rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3`}>
-              <item.icon className={`${item.color} text-xl`} />
+            <div className={`${item.bgColor} rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-2 sm:mb-3`}>
+              <item.icon className={`${item.color} text-lg sm:text-xl`} />
             </div>
-            <p className="font-semibold text-gray-800 mb-1">{item.value}</p>
-            <p className="text-sm text-gray-500">{item.label}</p>
+            <p className="font-semibold text-gray-800 mb-1 text-sm sm:text-base">{item.value}</p>
+            <p className="text-xs sm:text-sm text-gray-500">{item.label}</p>
           </motion.div>
         ))}
       </div>

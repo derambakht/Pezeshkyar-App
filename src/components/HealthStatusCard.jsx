@@ -39,7 +39,7 @@ const HealthStatusCard = () => {
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
       {healthMetrics.map((metric, index) => (
         <motion.div
           key={metric.id}
@@ -49,14 +49,14 @@ const HealthStatusCard = () => {
           whileHover={{ scale: 1.05, y: -2 }}
           className="relative"
         >
-          <div className={`p-4 rounded-2xl bg-gradient-to-r ${metric.color} text-white shadow-lg hover:shadow-xl transition-shadow`}>
-            <div className="flex items-center justify-between mb-3">
+          <div className={`p-3 sm:p-4 rounded-2xl bg-gradient-to-r ${metric.color} text-white shadow-lg hover:shadow-xl transition-shadow overflow-hidden`}>
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
               <motion.div
                 animate={metric.pulse ? { scale: [1, 1.1, 1] } : {}}
                 transition={{ duration: 1.5, repeat: Infinity }}
-                className="p-2 bg-white/20 rounded-full"
+                className="p-1.5 sm:p-2 bg-white/20 rounded-full"
               >
-                <metric.icon className="text-lg" />
+                <metric.icon className="text-base sm:text-lg" />
               </motion.div>
               
               {metric.pulse && (
@@ -70,19 +70,19 @@ const HealthStatusCard = () => {
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}
-                  className="w-3 h-3 bg-white rounded-full"
+                  className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full"
                 />
               )}
             </div>
             
             <div>
-              <p className="text-2xl font-bold mb-1">{metric.value}</p>
-              <p className="text-sm opacity-80">{metric.title}</p>
+              <p className="text-xl sm:text-2xl font-bold mb-1">{metric.value}</p>
+              <p className="text-xs sm:text-sm opacity-80 leading-tight">{metric.title}</p>
             </div>
             
             {/* Decorative elements */}
             <motion.div
-              className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -translate-y-8 translate-x-8"
+              className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-white/10 rounded-full -translate-y-6 translate-x-6 sm:-translate-y-8 sm:translate-x-8"
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             />

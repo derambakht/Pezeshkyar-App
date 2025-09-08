@@ -34,17 +34,17 @@ const PatientSearch = ({ onSelect }) => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto mt-8">
+    <div className="w-full max-w-md mx-auto px-3 sm:px-0">
       <Input
         type="text"
         placeholder="جستجوی بیمار بر اساس نام یا کد..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="mb-2"
+        className="mb-2 text-sm"
         aria-label="جستجوی بیمار"
       />
       {results.length > 0 && (
-        <ul className="bg-white border rounded shadow max-h-40 overflow-y-auto absolute w-full z-10">
+        <ul className="bg-white border rounded shadow max-h-40 overflow-y-auto absolute w-full max-w-md z-10 left-1/2 transform -translate-x-1/2">
           {results.map((p) => (
             <li
               key={p.id}

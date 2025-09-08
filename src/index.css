@@ -106,6 +106,45 @@
   .mobile-text {
     font-size: 0.875rem;
   }
+  
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+  
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Fix for long text */
+  .break-words {
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+  }
+  
+  /* Container fixes */
+  .container {
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Fix for very small screens */
+@media (max-width: 480px) {
+  .text-responsive {
+    font-size: 0.75rem;
+  }
+  
+  .p-responsive {
+    padding: 0.5rem;
+  }
+  
+  .gap-responsive {
+    gap: 0.5rem;
+  }
 }
 
 body {

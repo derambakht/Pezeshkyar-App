@@ -56,10 +56,10 @@ const NotificationPanel = () => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-3"
     >
-      <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
+      <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 flex items-center flex-wrap">
         <FaBell className="ml-2 text-blue-500" />
-        اعلان‌های اخیر
-        <span className="mr-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+        <span className="flex-1">اعلان‌های اخیر</span>
+        <span className="mr-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0">
           {notifications.length}
         </span>
       </h3>
@@ -72,23 +72,23 @@ const NotificationPanel = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20, height: 0 }}
             transition={{ duration: 0.3 }}
-            className={`relative bg-gradient-to-r ${notification.color} rounded-xl p-4 text-white overflow-hidden`}
+            className={`relative bg-gradient-to-r ${notification.color} rounded-xl p-3 sm:p-4 text-white overflow-hidden`}
           >
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full translate-y-12 -translate-x-12"></div>
+              <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-full -translate-y-12 translate-x-12 sm:-translate-y-16 sm:translate-x-16"></div>
+              <div className="absolute bottom-0 left-0 w-16 h-16 sm:w-24 sm:h-24 bg-white rounded-full translate-y-8 -translate-x-8 sm:translate-y-12 sm:-translate-x-12"></div>
             </div>
             
             <div className="relative z-10 flex items-start justify-between">
-              <div className="flex items-start space-x-3 space-x-reverse flex-1">
-                <div className="p-2 bg-white/20 rounded-full">
-                  <notification.icon className="text-lg" />
+              <div className="flex items-start space-x-3 space-x-reverse flex-1 min-w-0">
+                <div className="p-1.5 sm:p-2 bg-white/20 rounded-full flex-shrink-0">
+                  <notification.icon className="text-sm sm:text-lg" />
                 </div>
                 
-                <div className="flex-1">
-                  <h4 className="font-semibold mb-1">{notification.title}</h4>
-                  <p className="text-sm opacity-90 mb-2">{notification.message}</p>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-semibold mb-1 text-sm sm:text-base">{notification.title}</h4>
+                  <p className="text-xs sm:text-sm opacity-90 mb-2 break-words">{notification.message}</p>
                   <p className="text-xs opacity-70">{notification.time}</p>
                 </div>
               </div>

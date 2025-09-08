@@ -68,11 +68,11 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-x-hidden">
       {/* Background Animation */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full opacity-10"
+          className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full opacity-10 sm:block hidden"
           animate={{
             scale: [1, 1.2, 1],
             rotate: [0, 90, 0],
@@ -84,7 +84,7 @@ const Dashboard = () => {
           }}
         />
         <motion.div
-          className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 rounded-full opacity-10"
+          className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 rounded-full opacity-10 sm:block hidden"
           animate={{
             scale: [1.2, 1, 1.2],
             rotate: [0, -90, 0],
@@ -149,7 +149,7 @@ const Dashboard = () => {
       </motion.header>
 
       {/* Main Content */}
-      <div className="relative z-10 px-4 md:px-6">
+      <div className="relative z-10 px-3 sm:px-4 md:px-6 max-w-full overflow-x-hidden">
         {/* Voice Assistant Section */}
         <motion.section
           initial={{ scale: 0.9, opacity: 0 }}
@@ -157,7 +157,7 @@ const Dashboard = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mb-8"
         >
-          <Card className="p-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-2xl">
+          <Card className="p-4 sm:p-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-2xl mx-auto max-w-full">
             <div className="text-center mb-6">
               <motion.div
                 animate={{
@@ -174,7 +174,7 @@ const Dashboard = () => {
                 <MicrophoneButton isRecording={isRecording} onClick={handleMicClick} />
               </motion.div>
               
-              <h3 className="text-xl font-bold mb-2">دستیار صوتی پزشکیار</h3>
+              <h3 className="text-lg sm:text-xl font-bold mb-2">دستیار صوتی پزشکیار</h3>
               <p className="text-blue-100 text-sm">
                 {isRecording ? "در حال گوش دادن..." : "برای شروع گفتگو کلیک کنید"}
               </p>
@@ -187,13 +187,13 @@ const Dashboard = () => {
                 placeholder="سوال خود را بپرسید..."
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                className="flex-1 bg-white/20 border-white/30 text-white placeholder-white/70"
+                className="flex-1 bg-white/20 border-white/30 text-white placeholder-white/70 text-sm"
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
               />
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-white/20 text-white rounded-lg px-4 py-2 font-bold hover:bg-white/30 transition backdrop-blur-sm"
+                className="bg-white/20 text-white rounded-lg px-3 sm:px-4 py-2 font-bold hover:bg-white/30 transition backdrop-blur-sm text-sm"
                 onClick={handleSend}
               >
                 ارسال
@@ -220,7 +220,7 @@ const Dashboard = () => {
           className="mb-8"
         >
           <h3 className="text-lg font-bold text-gray-800 mb-4">دسترسی سریع</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {quickActions.map((action, index) => (
               <motion.div
                 key={action.id}
@@ -230,10 +230,10 @@ const Dashboard = () => {
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Card className={`p-4 bg-gradient-to-r ${action.color} text-white cursor-pointer shadow-lg hover:shadow-xl transition-shadow`}>
+                <Card className={`p-3 sm:p-4 bg-gradient-to-r ${action.color} text-white cursor-pointer shadow-lg hover:shadow-xl transition-shadow`}>
                   <div className="text-center">
-                    <action.icon className="text-2xl mb-3 mx-auto" />
-                    <p className="font-semibold text-sm">{action.title}</p>
+                    <action.icon className="text-xl sm:text-2xl mb-2 sm:mb-3 mx-auto" />
+                    <p className="font-semibold text-xs sm:text-sm">{action.title}</p>
                   </div>
                 </Card>
               </motion.div>
@@ -262,7 +262,7 @@ const Dashboard = () => {
                     className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-[80%] p-3 rounded-2xl ${
+                      className={`max-w-[85%] sm:max-w-[80%] p-3 rounded-2xl break-words ${
                         msg.sender === "user"
                           ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white"
                           : "bg-gray-100 text-gray-800"
@@ -307,16 +307,16 @@ const Dashboard = () => {
                 transition={{ duration: 0.3, delay: 0.1 * index }}
                 whileHover={{ scale: 1.02 }}
               >
-                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                <Card className="p-3 sm:p-4 hover:shadow-md transition-shadow cursor-pointer">
                   <div className="flex items-center space-x-3 space-x-reverse">
-                    <div className="w-10 h-10 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-                      <activity.icon className="text-white text-sm" />
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <activity.icon className="text-white text-xs sm:text-sm" />
                     </div>
-                    <div className="flex-1">
-                      <p className="font-semibold text-gray-800">{activity.action}</p>
-                      <p className="text-sm text-gray-500">{activity.patient}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-gray-800 text-sm sm:text-base truncate">{activity.action}</p>
+                      <p className="text-xs sm:text-sm text-gray-500 truncate">{activity.patient}</p>
                     </div>
-                    <p className="text-xs text-gray-400">{activity.time}</p>
+                    <p className="text-xs text-gray-400 flex-shrink-0">{activity.time}</p>
                   </div>
                 </Card>
               </motion.div>
@@ -354,34 +354,34 @@ const Dashboard = () => {
           className="mb-20"
         >
           <h3 className="text-lg font-bold text-gray-800 mb-4">آمار امروز</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="p-4 bg-gradient-to-r from-green-400 to-green-600 text-white">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+            <Card className="p-3 sm:p-4 bg-gradient-to-r from-green-400 to-green-600 text-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-2xl font-bold">24</p>
-                  <p className="text-sm opacity-80">بیمار ویزیت شده</p>
+                  <p className="text-xl sm:text-2xl font-bold">24</p>
+                  <p className="text-xs sm:text-sm opacity-80">بیمار ویزیت شده</p>
                 </div>
-                <FaUserMd className="text-3xl opacity-60" />
+                <FaUserMd className="text-2xl sm:text-3xl opacity-60" />
               </div>
             </Card>
             
-            <Card className="p-4 bg-gradient-to-r from-blue-400 to-blue-600 text-white">
+            <Card className="p-3 sm:p-4 bg-gradient-to-r from-blue-400 to-blue-600 text-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-2xl font-bold">12</p>
-                  <p className="text-sm opacity-80">نوبت باقی‌مانده</p>
+                  <p className="text-xl sm:text-2xl font-bold">12</p>
+                  <p className="text-xs sm:text-sm opacity-80">نوبت باقی‌مانده</p>
                 </div>
-                <FaCalendarAlt className="text-3xl opacity-60" />
+                <FaCalendarAlt className="text-2xl sm:text-3xl opacity-60" />
               </div>
             </Card>
             
-            <Card className="p-4 bg-gradient-to-r from-purple-400 to-purple-600 text-white">
+            <Card className="p-3 sm:p-4 bg-gradient-to-r from-purple-400 to-purple-600 text-white sm:col-span-2 md:col-span-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-2xl font-bold">98%</p>
-                  <p className="text-sm opacity-80">رضایت بیماران</p>
+                  <p className="text-xl sm:text-2xl font-bold">98%</p>
+                  <p className="text-xs sm:text-sm opacity-80">رضایت بیماران</p>
                 </div>
-                <FaHeart className="text-3xl opacity-60" />
+                <FaHeart className="text-2xl sm:text-3xl opacity-60" />
               </div>
             </Card>
           </div>
@@ -405,7 +405,7 @@ const Dashboard = () => {
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ delay: 0.5 }}
-        className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-gray-200 p-4 z-40"
+        className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-gray-200 p-3 sm:p-4 z-40 safe-area-bottom"
       >
         <PatientSearch />
       </motion.div>
