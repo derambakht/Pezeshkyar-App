@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaMicrophone, FaStop, FaUser, FaPills, FaChartLine, FaStethoscope, FaCalendarAlt, FaSearch, FaBell, FaCog, FaHeart, FaUserMd, FaPlus } from "react-icons/fa";
+import { FaUser, FaPills, FaChartLine, FaStethoscope, FaCalendarAlt, FaSearch, FaBell, FaCog, FaHeart, FaUserMd, FaPlus } from "react-icons/fa";
 import { MdHealthAndSafety, MdLocalHospital } from "react-icons/md";
-import MicrophoneButton from "./MicrophoneButton";
 import PatientSearch from "./PatientSearch";
 import HealthStatusCard from "./HealthStatusCard";
 import EnvironmentCard from "./EnvironmentCard";
@@ -11,15 +10,13 @@ import StatChart from "./StatChart";
 import QuickSettings from "./QuickSettings";
 import ThemeToggle from "./ThemeToggle";
 import LoadingSpinner from "./LoadingSpinner";
+import VoiceAssistant from "./VoiceAssistant";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { useTheme } from "../contexts/ThemeContext";
 
 const Dashboard = () => {
   const { isDark } = useTheme();
-  const [isRecording, setIsRecording] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const [chatHistory, setChatHistory] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [greeting, setGreeting] = useState("");
   const [activeSection, setActiveSection] = useState("home");
@@ -35,27 +32,6 @@ const Dashboard = () => {
     else if (hour < 17) setGreeting("ظهر بخیر");
     else setGreeting("عصر بخیر");
   }, [currentTime]);
-
-  const handleMicClick = () => {
-    setIsRecording((prev) => !prev);
-  };
-
-  const handleSend = () => {
-    if (inputValue.trim()) {
-      setChatHistory((prev) => [
-        ...prev,
-        { text: inputValue, sender: "user", timestamp: new Date() }
-      ]);
-      setInputValue("");
-      
-      setTimeout(() => {
-        setChatHistory((prev) => [
-          ...prev,
-          { text: "پاسخ دستیار هوشمند پزشکیار", sender: "assistant", timestamp: new Date() }
-        ]);
-      }, 800);
-    }
-  };
 
   const quickActions = [
     { id: "patients", icon: FaUser, title: "بیماران", color: "from-blue-500 to-blue-600" },
@@ -171,49 +147,7 @@ const Dashboard = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mb-8"
         >
-          <Card className="p-4 sm:p-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-2xl mx-auto max-w-full">
-            <div className="text-center mb-6">
-              <motion.div
-                animate={{
-                  boxShadow: isRecording
-                    ? ["0 0 0 0 rgba(255,255,255,0.4)", "0 0 0 20px rgba(255,255,255,0.1)", "0 0 0 0 rgba(255,255,255,0.4)"]
-                    : "0 0 0 0 rgba(255,255,255,0.1)",
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: isRecording ? Infinity : 0,
-                }}
-                className="inline-block rounded-full p-2 mb-4"
-              >
-                <MicrophoneButton isRecording={isRecording} onClick={handleMicClick} />
-              </motion.div>
-              
-              <h3 className="text-lg sm:text-xl font-bold mb-2">دستیار صوتی پزشکیار</h3>
-              <p className="text-blue-100 text-sm">
-                {isRecording ? "در حال گوش دادن..." : "برای شروع گفتگو کلیک کنید"}
-              </p>
-            </div>
-
-            {/* Text Input */}
-            <div className="flex gap-2">
-              <Input
-                type="text"
-                placeholder="سوال خود را بپرسید..."
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                className="flex-1 bg-white/20 border-white/30 text-white placeholder-white/70 text-sm"
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              />
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white/20 text-white rounded-lg px-3 sm:px-4 py-2 font-bold hover:bg-white/30 transition backdrop-blur-sm text-sm"
-                onClick={handleSend}
-              >
-                ارسال
-              </motion.button>
-            </div>
-          </Card>
+          <VoiceAssistant />
         </motion.section>
 
         {/* Health Status Cards */}
@@ -254,49 +188,6 @@ const Dashboard = () => {
             ))}
           </div>
         </motion.section>
-
-        {/* Chat History */}
-        <AnimatePresence>
-          {chatHistory.length > 0 && (
-            <motion.section
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="mb-8"
-            >
-              <h3 className={`text-base sm:text-lg font-bold mb-4 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>تاریخچه گفتگو</h3>
-              <Card className={`p-4 max-h-64 overflow-y-auto space-y-3 ${
-                isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-              }`}>
-                {chatHistory.map((msg, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
-                  >
-                    <div
-                      className={`max-w-[85%] sm:max-w-[80%] p-3 rounded-2xl break-words ${
-                        msg.sender === "user"
-                          ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white"
-                          : isDark 
-                            ? "bg-gray-700 text-gray-100" 
-                            : "bg-gray-100 text-gray-800"
-                      }`}
-                    >
-                      <p className="text-sm">{msg.text}</p>
-                      <p className="text-xs opacity-70 mt-1">
-                        {msg.timestamp?.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' })}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </Card>
-            </motion.section>
-          )}
-        </AnimatePresence>
 
         {/* Environment Status */}
         <motion.section

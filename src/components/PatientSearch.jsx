@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Input } from "./ui/input";
 import PatientCard from "./PatientCard";
+import { useTheme } from "../contexts/ThemeContext";
 import patientsData from "../data/patients.json";
 
 /**
  * PatientSearch component: search and select patient from mock data
  */
 const PatientSearch = ({ onSelect }) => {
+  const { isDark } = useTheme();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -44,14 +46,24 @@ const PatientSearch = ({ onSelect }) => {
         aria-label="جستجوی بیمار"
       />
       {results.length > 0 && (
-        <ul className="bg-white border rounded shadow max-h-40 overflow-y-auto absolute w-full max-w-md z-10 left-1/2 transform -translate-x-1/2">
+        <ul className={`border rounded shadow max-h-40 overflow-y-auto absolute w-full max-w-md z-10 left-1/2 transform -translate-x-1/2 ${
+          isDark 
+            ? 'bg-gray-800 border-gray-600 text-white' 
+            : 'bg-white border-gray-200 text-gray-900'
+        }`}>
           {results.map((p) => (
             <li
               key={p.id}
-              className="px-4 py-2 hover:bg-primary/10 cursor-pointer text-right"
+              className={`px-4 py-2 cursor-pointer text-right transition-colors ${
+                isDark 
+                  ? 'hover:bg-gray-700 text-gray-100' 
+                  : 'hover:bg-primary/10 text-gray-900'
+              }`}
               onClick={() => handleSelect(p)}
             >
-              {p.name} <span className="text-xs text-gray-500">({p.id})</span>
+              {p.name} <span className={`text-xs ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}>({p.id})</span>
             </li>
           ))}
         </ul>
