@@ -1,0 +1,44 @@
+[
+  {
+    "name": "متفورمین",
+    "indication": "کنترل قند خون",
+    "sideEffects": ["تهوع", "اسهال"],
+    "contraindications": ["نارسایی کلیوی"]
+  },
+  {
+    "name": "لوزارتان",
+    "indication": "درمان فشار خون بالا",
+    "sideEffects": ["سرگیجه", "خستگی"],
+    "contraindications": ["بارداری"]
+  },
+  {
+    "name": "سالبوتامول",
+    "indication": "درمان آسم",
+    "sideEffects": ["تپش قلب", "لرزش"],
+    "contraindications": ["بیماری قلبی شدید"]
+  },
+  {
+    "name": "آسپرین",
+    "indication": "پیشگیری از سکته قلبی",
+    "sideEffects": ["خونریزی معده", "حالت تهوع"],
+    "contraindications": ["زخم معده فعال"]
+  },
+  {
+    "name": "فروس سولفات",
+    "indication": "درمان کم‌خونی",
+    "sideEffects": ["یبوست", "مدفوع تیره"],
+    "contraindications": ["هموکروماتوز"]
+  },
+  {
+    "name": "آملودیپین",
+    "indication": "درمان فشار خون بالا",
+    "sideEffects": ["ورم پا", "سردرد"],
+    "contraindications": ["نارسایی شدید کبدی"]
+  },
+  {
+    "name": "آتورواستاتین",
+    "indication": "کاهش کلسترول خون",
+    "sideEffects": ["درد عضلانی", "اختلالات گوارشی"],
+    "contraindications": ["بیماری کبدی فعال"]
+  }
+]

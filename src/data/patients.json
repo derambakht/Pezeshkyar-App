@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "name": "علی رضایی",
+    "age": 45,
+    "gender": "مرد",
+    "medicalHistory": ["دیابت نوع ۲", "فشار خون بالا"],
+    "currentMedications": ["متفورمین", "لوزارتان"]
+  },
+  {
+    "id": "2",
+    "name": "مریم احمدی",
+    "age": 38,
+    "gender": "زن",
+    "medicalHistory": ["آسم"],
+    "currentMedications": ["سالبوتامول"]
+  },
+  {
+    "id": "3",
+    "name": "حسین محمدی",
+    "age": 52,
+    "gender": "مرد",
+    "medicalHistory": ["بیماری قلبی"],
+    "currentMedications": ["آسپرین"]
+  },
+  {
+    "id": "4",
+    "name": "زهرا کریمی",
+    "age": 29,
+    "gender": "زن",
+    "medicalHistory": ["کم‌خونی"],
+    "currentMedications": ["فروس سولفات"]
+  },
+  {
+    "id": "5",
+    "name": "رضا موسوی",
+    "age": 60,
+    "gender": "مرد",
+    "medicalHistory": ["فشار خون بالا", "کلسترول بالا"],
+    "currentMedications": ["آملودیپین", "آتورواستاتین"]
+  }
+]
