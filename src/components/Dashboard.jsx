@@ -9,11 +9,14 @@ import EnvironmentCard from "./EnvironmentCard";
 import NotificationPanel from "./NotificationPanel";
 import StatChart from "./StatChart";
 import QuickSettings from "./QuickSettings";
+import ThemeToggle from "./ThemeToggle";
 import LoadingSpinner from "./LoadingSpinner";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
+import { useTheme } from "../contexts/ThemeContext";
 
 const Dashboard = () => {
+  const { isDark } = useTheme();
   const [isRecording, setIsRecording] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
@@ -68,11 +71,17 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-x-hidden">
+    <div className={`min-h-screen relative overflow-x-hidden transition-all duration-300 ${
+      isDark 
+        ? 'bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900' 
+        : 'bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50'
+    }`}>
       {/* Background Animation */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full opacity-10 sm:block hidden"
+          className={`absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-10 sm:block hidden ${
+            isDark ? 'bg-blue-400' : 'bg-blue-200'
+          }`}
           animate={{
             scale: [1, 1.2, 1],
             rotate: [0, 90, 0],
@@ -84,7 +93,9 @@ const Dashboard = () => {
           }}
         />
         <motion.div
-          className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 rounded-full opacity-10 sm:block hidden"
+          className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-10 sm:block hidden ${
+            isDark ? 'bg-purple-400' : 'bg-purple-200'
+          }`}
           animate={{
             scale: [1.2, 1, 1.2],
             rotate: [0, -90, 0],
@@ -113,10 +124,10 @@ const Dashboard = () => {
               <MdHealthAndSafety className="text-white text-2xl" />
             </motion.div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className={`text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent`}>
                 پزشکیار
               </h1>
-              <p className="text-sm text-gray-500">دستیار هوشمند پزشکی</p>
+              <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-500'}`}>دستیار هوشمند پزشکی</p>
             </div>
           </div>
           
@@ -124,10 +135,13 @@ const Dashboard = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-full bg-white shadow-md"
+              className={`p-2 rounded-full shadow-md transition-colors ${
+                isDark ? 'bg-gray-800 text-gray-200 hover:bg-gray-700' : 'bg-white text-gray-600 hover:bg-gray-50'
+              }`}
             >
-              <FaBell className="text-gray-600" />
+              <FaBell />
             </motion.button>
+            <ThemeToggle />
             <QuickSettings />
           </div>
         </div>
@@ -139,10 +153,10 @@ const Dashboard = () => {
           transition={{ delay: 0.3 }}
           className="mb-6"
         >
-          <h2 className="text-lg font-semibold text-gray-800 mb-1">
+          <h2 className={`text-lg font-semibold mb-1 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
             {greeting} دکتر عزیز
           </h2>
-          <p className="text-sm text-gray-500">
+          <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
             {currentTime.toLocaleDateString('fa-IR')} - {currentTime.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' })}
           </p>
         </motion.div>
@@ -219,7 +233,7 @@ const Dashboard = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mb-8"
         >
-          <h3 className="text-lg font-bold text-gray-800 mb-4">دسترسی سریع</h3>
+          <h3 className={`text-lg font-bold mb-4 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>دسترسی سریع</h3>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {quickActions.map((action, index) => (
               <motion.div
@@ -251,8 +265,10 @@ const Dashboard = () => {
               transition={{ duration: 0.3 }}
               className="mb-8"
             >
-              <h3 className="text-lg font-bold text-gray-800 mb-4">تاریخچه گفتگو</h3>
-              <Card className="p-4 max-h-64 overflow-y-auto space-y-3">
+              <h3 className={`text-base sm:text-lg font-bold mb-4 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>تاریخچه گفتگو</h3>
+              <Card className={`p-4 max-h-64 overflow-y-auto space-y-3 ${
+                isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+              }`}>
                 {chatHistory.map((msg, idx) => (
                   <motion.div
                     key={idx}
@@ -265,7 +281,9 @@ const Dashboard = () => {
                       className={`max-w-[85%] sm:max-w-[80%] p-3 rounded-2xl break-words ${
                         msg.sender === "user"
                           ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white"
-                          : "bg-gray-100 text-gray-800"
+                          : isDark 
+                            ? "bg-gray-700 text-gray-100" 
+                            : "bg-gray-100 text-gray-800"
                       }`}
                     >
                       <p className="text-sm">{msg.text}</p>
@@ -297,7 +315,7 @@ const Dashboard = () => {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="mb-8"
         >
-          <h3 className="text-lg font-bold text-gray-800 mb-4">فعالیت‌های اخیر</h3>
+          <h3 className={`text-lg font-bold mb-4 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>فعالیت‌های اخیر</h3>
           <div className="space-y-3">
             {recentActivities.map((activity, index) => (
               <motion.div
@@ -307,16 +325,24 @@ const Dashboard = () => {
                 transition={{ duration: 0.3, delay: 0.1 * index }}
                 whileHover={{ scale: 1.02 }}
               >
-                <Card className="p-3 sm:p-4 hover:shadow-md transition-shadow cursor-pointer">
+                <Card className={`p-3 sm:p-4 hover:shadow-md transition-shadow cursor-pointer ${
+                  isDark ? 'bg-gray-800 border-gray-700 hover:bg-gray-700' : 'bg-white border-gray-200 hover:bg-gray-50'
+                }`}>
                   <div className="flex items-center space-x-3 space-x-reverse">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
                       <activity.icon className="text-white text-xs sm:text-sm" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-gray-800 text-sm sm:text-base truncate">{activity.action}</p>
-                      <p className="text-xs sm:text-sm text-gray-500 truncate">{activity.patient}</p>
+                      <p className={`font-semibold text-sm sm:text-base truncate ${
+                        isDark ? 'text-gray-200' : 'text-gray-800'
+                      }`}>{activity.action}</p>
+                      <p className={`text-xs sm:text-sm truncate ${
+                        isDark ? 'text-gray-400' : 'text-gray-500'
+                      }`}>{activity.patient}</p>
                     </div>
-                    <p className="text-xs text-gray-400 flex-shrink-0">{activity.time}</p>
+                    <p className={`text-xs flex-shrink-0 ${
+                      isDark ? 'text-gray-500' : 'text-gray-400'
+                    }`}>{activity.time}</p>
                   </div>
                 </Card>
               </motion.div>
@@ -331,7 +357,7 @@ const Dashboard = () => {
           transition={{ duration: 0.5, delay: 0.7 }}
           className="mb-8"
         >
-          <Card className="p-6">
+          <Card className={`p-6 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
             <NotificationPanel />
           </Card>
         </motion.section>
@@ -353,7 +379,7 @@ const Dashboard = () => {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="mb-20"
         >
-          <h3 className="text-lg font-bold text-gray-800 mb-4">آمار امروز</h3>
+          <h3 className={`text-lg font-bold mb-4 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>آمار امروز</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             <Card className="p-3 sm:p-4 bg-gradient-to-r from-green-400 to-green-600 text-white">
               <div className="flex items-center justify-between">
@@ -405,7 +431,11 @@ const Dashboard = () => {
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ delay: 0.5 }}
-        className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-gray-200 p-3 sm:p-4 z-40 safe-area-bottom"
+        className={`fixed bottom-0 left-0 w-full backdrop-blur-sm border-t p-3 sm:p-4 z-40 safe-area-bottom ${
+          isDark 
+            ? 'bg-gray-900/95 border-gray-700' 
+            : 'bg-white/95 border-gray-200'
+        }`}
       >
         <PatientSearch />
       </motion.div>

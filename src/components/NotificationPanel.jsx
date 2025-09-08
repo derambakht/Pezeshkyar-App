@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaBell, FaExclamationTriangle, FaCheckCircle, FaInfoCircle, FaTimes } from "react-icons/fa";
+import { useTheme } from "../contexts/ThemeContext";
 
 const NotificationPanel = () => {
+  const { isDark } = useTheme();
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -42,7 +44,7 @@ const NotificationPanel = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="text-center py-8 text-gray-400"
+        className={`text-center py-8 ${isDark ? 'text-gray-400' : 'text-gray-400'}`}
       >
         <FaBell className="text-4xl mx-auto mb-2 opacity-50" />
         <p>هیچ اعلان جدیدی وجود ندارد</p>
@@ -56,7 +58,9 @@ const NotificationPanel = () => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-3"
     >
-      <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 flex items-center flex-wrap">
+      <h3 className={`text-base sm:text-lg font-bold mb-4 flex items-center flex-wrap ${
+        isDark ? 'text-gray-200' : 'text-gray-800'
+      }`}>
         <FaBell className="ml-2 text-blue-500" />
         <span className="flex-1">اعلان‌های اخیر</span>
         <span className="mr-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0">

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaMicrophone, FaStop } from "react-icons/fa";
+import { useTheme } from "../contexts/ThemeContext";
 
 /**
  * MicrophoneButton component with Framer Motion animation
@@ -9,11 +10,17 @@ import { FaMicrophone, FaStop } from "react-icons/fa";
  * @param {function} props.onClick - Click handler
  */
 const MicrophoneButton = ({ isRecording, onClick }) => {
+  const { isDark } = useTheme();
+  
   return (
     <motion.button
       aria-label={isRecording ? "توقف ضبط صدا" : "شروع ضبط صدا"}
       className={`rounded-full p-6 shadow-lg flex items-center justify-center focus:outline-none transition-colors duration-200 text-white ${
-        isRecording ? "bg-red-500" : "bg-primary"
+        isRecording 
+          ? "bg-red-500" 
+          : isDark 
+            ? "bg-blue-600 hover:bg-blue-700" 
+            : "bg-primary hover:bg-blue-600"
       }`}
       whileTap={{ scale: 0.9 }}
       animate={{

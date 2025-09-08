@@ -2,6 +2,85 @@
 @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
 @import "tailwindcss";
 
+/* Root variables for themes */
+:root {
+  /* Light theme colors */
+  --bg-primary: #f9fafb;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-gradient-from: #f1f5f9;
+  --bg-gradient-via: #dbeafe;
+  --bg-gradient-to: #e0e7ff;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --border-color: #e5e7eb;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-lg: rgba(0, 0, 0, 0.15);
+}
+
+.dark {
+  /* Dark theme colors */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: #334155;
+  --bg-gradient-from: #1e293b;
+  --bg-gradient-via: #1e3a8a;
+  --bg-gradient-to: #4338ca;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-color: #475569;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-lg: rgba(0, 0, 0, 0.4);
+}
+
+/* Base styles */
+body {
+  font-family: 'Vazirmatn', sans-serif;
+  direction: rtl;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme-aware utility classes */
+.bg-theme-primary {
+  background-color: var(--bg-primary);
+}
+
+.bg-theme-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.bg-theme-card {
+  background-color: var(--bg-card);
+}
+
+.text-theme-primary {
+  color: var(--text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--text-secondary);
+}
+
+.text-theme-muted {
+  color: var(--text-muted);
+}
+
+.border-theme {
+  border-color: var(--border-color);
+}
+
+.shadow-theme {
+  box-shadow: 0 1px 3px 0 var(--shadow);
+}
+
+.shadow-theme-lg {
+  box-shadow: 0 10px 15px -3px var(--shadow-lg);
+}
+
 /* Custom animations and styles */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }

@@ -1,8 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaThermometerHalf, FaTint, FaWind, FaSun } from "react-icons/fa";
+import { useTheme } from "../contexts/ThemeContext";
 
 const EnvironmentCard = () => {
+  const { isDark } = useTheme();
+  
   const environmentData = [
     {
       id: 1,
@@ -43,9 +46,13 @@ const EnvironmentCard = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow mb-6 overflow-hidden"
+      className={`rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow mb-6 overflow-hidden ${
+        isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-100'
+      }`}
     >
-      <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 flex items-center">
+      <h3 className={`text-base sm:text-lg font-bold mb-4 flex items-center ${
+        isDark ? 'text-gray-200' : 'text-gray-800'
+      }`}>
         <span className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full ml-2 animate-pulse"></span>
         وضعیت محیط مطب
       </h3>
@@ -63,8 +70,12 @@ const EnvironmentCard = () => {
             <div className={`${item.bgColor} rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-2 sm:mb-3`}>
               <item.icon className={`${item.color} text-lg sm:text-xl`} />
             </div>
-            <p className="font-semibold text-gray-800 mb-1 text-sm sm:text-base">{item.value}</p>
-            <p className="text-xs sm:text-sm text-gray-500">{item.label}</p>
+            <p className={`font-semibold mb-1 text-sm sm:text-base ${
+              isDark ? 'text-gray-200' : 'text-gray-800'
+            }`}>{item.value}</p>
+            <p className={`text-xs sm:text-sm ${
+              isDark ? 'text-gray-400' : 'text-gray-500'
+            }`}>{item.label}</p>
           </motion.div>
         ))}
       </div>

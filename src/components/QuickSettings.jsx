@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaUser, FaCog, FaBell, FaSignOutAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
+import { useTheme } from "../contexts/ThemeContext";
 
 const QuickSettings = () => {
+  const { isDark } = useTheme();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [doctorInfo, setDoctorInfo] = useState({
@@ -55,7 +57,11 @@ const QuickSettings = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="absolute left-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 overflow-hidden"
+              className={`absolute left-0 mt-2 w-80 rounded-2xl shadow-2xl border z-50 overflow-hidden ${
+                isDark 
+                  ? 'bg-gray-800 border-gray-700' 
+                  : 'bg-white border-gray-100'
+              }`}
             >
               {/* Header */}
               <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-4 text-white">

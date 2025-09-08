@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaArrowUp, FaArrowDown, FaEquals } from "react-icons/fa";
+import { useTheme } from "../contexts/ThemeContext";
 
 const StatChart = () => {
+  const { isDark } = useTheme();
   const [activeChart, setActiveChart] = useState(0);
   
   const chartData = [
@@ -49,11 +51,15 @@ const StatChart = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow"
+      className={`rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow ${
+        isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-100'
+      }`}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-bold text-gray-800">{currentData.title}</h3>
+        <h3 className={`text-lg font-bold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
+          {currentData.title}
+        </h3>
         <div className={`flex items-center space-x-1 space-x-reverse ${trendColor}`}>
           <TrendIcon className="text-sm" />
           <span className="text-sm font-semibold">{currentData.percentage}</span>
@@ -71,7 +77,9 @@ const StatChart = () => {
             className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
               activeChart === chart.id
                 ? "bg-blue-500 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                : isDark
+                  ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
             {chart.title.split(" ")[0]}
@@ -105,7 +113,7 @@ const StatChart = () => {
       </div>
 
       {/* Labels */}
-      <div className="flex justify-between text-xs text-gray-500">
+      <div className={`flex justify-between text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
         {currentData.labels.map((label, index) => (
           <span key={index} className="text-center">
             {label}
@@ -118,11 +126,11 @@ const StatChart = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
-        className="mt-4 p-4 bg-gray-50 rounded-lg"
+        className={`mt-4 p-4 rounded-lg ${isDark ? 'bg-gray-700' : 'bg-gray-50'}`}
       >
         <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-600">میانگین هفتگی:</span>
-          <span className="font-semibold text-gray-800">
+          <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>میانگین هفتگی:</span>
+          <span className={`font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
             {Math.round(currentData.data.reduce((a, b) => a + b) / currentData.data.length)}
             {currentData.id === 1 ? " هزار تومان" : currentData.id === 2 ? "%" : " بیمار"}
           </span>

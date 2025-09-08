@@ -1,8 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaHeart, FaHeartbeat, FaUserFriends, FaTrophy } from "react-icons/fa";
+import { useTheme } from "../contexts/ThemeContext";
 
 const HealthStatusCard = () => {
+  const { isDark } = useTheme();
+  
   const healthMetrics = [
     {
       id: 1,
@@ -49,7 +52,11 @@ const HealthStatusCard = () => {
           whileHover={{ scale: 1.05, y: -2 }}
           className="relative"
         >
-          <div className={`p-3 sm:p-4 rounded-2xl bg-gradient-to-r ${metric.color} text-white shadow-lg hover:shadow-xl transition-shadow overflow-hidden`}>
+          <div className={`p-3 sm:p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden ${
+            isDark 
+              ? 'bg-gradient-to-r from-gray-700 to-gray-800 text-gray-100' 
+              : `bg-gradient-to-r ${metric.color} text-white`
+          }`}>
             <div className="flex items-center justify-between mb-2 sm:mb-3">
               <motion.div
                 animate={metric.pulse ? { scale: [1, 1.1, 1] } : {}}

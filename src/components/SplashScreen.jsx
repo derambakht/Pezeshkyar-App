@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { MdHealthAndSafety } from "react-icons/md";
 import LoadingSpinner from "./LoadingSpinner";
+import { useTheme } from "../contexts/ThemeContext";
 
 const SplashScreen = ({ onComplete }) => {
+  const { isDark } = useTheme();
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       onComplete();
@@ -18,7 +21,11 @@ const SplashScreen = ({ onComplete }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 1.1 }}
       transition={{ duration: 0.5 }}
-      className="fixed inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 flex items-center justify-center z-50"
+      className={`fixed inset-0 flex items-center justify-center z-50 ${
+        isDark 
+          ? 'bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900' 
+          : 'bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800'
+      }`}
     >
       {/* Background Animation */}
       <div className="absolute inset-0 overflow-hidden">
